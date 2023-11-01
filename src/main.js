@@ -16,10 +16,12 @@ import router from './router'
 import Master from '@/components/Layouts/Master.vue'
 import Header from '@/components/UI/Header.vue'
 import Body from '@/components/UI/Body.vue'
+import { AxiosApp } from '@/configs/service.js'
 
 const app = createApp(App)
 const pinia = createPinia()
 
+app.config.globalProperties.$http = AxiosApp;
 app.use(pinia)
 app.component('Master',Master)
 app.component('Header',Header)

@@ -9,28 +9,47 @@
       <h2>Home Page</h2> 
     </Header>
     <Body>
-
-      {{ counterStore().count  }}
-
-      <button @click="counterStore().count++">+</button>
-
+      <button class="btn btn-primary" @click="fetchData()">Get Data</button>
       <br>
-      <router-link to="/login" class="btn btn-sm btn-danger">Go to Login</router-link>
+      <pre>
+        {{ data }}
+      </pre>
     </Body>
   </Master>
 </template>
 
 <script>
 import { useCounterStore } from '@/stores/counter.js'
+import axios from 'axios';
  export default {
   data(){
     return {
-      counterStore : useCounterStore
+      counterStore : useCounterStore,
+      data : [],
     }
   },
+  methods: {
+    async fetchData(){
+      this.data = await this.$http.get('product');
+      // this.data = await axios.get('.....')
+    }
+  }
  }
 </script>
 
-<style>
+<script setup>
+import { getCurrentInstance, onMounted } from 'vue';
 
-</style>
+const app = getCurrentInstance();
+const http = app.appContext.config.globalProperties.$http;
+
+async function getData(){
+  const data = await http.get('product');
+
+  console.log(data);
+}
+
+onMounted(()=>{
+  getData()
+})
+</script>
