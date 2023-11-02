@@ -19,4 +19,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::group(['namespace' => 'App\Http\Controllers\Api\\'], function(){
     Route::post('/login', 'AuthController@login');
+
+    Route::middleware(['auth:api'])->group(function () {
+        Route::get('/test', function(){
+            return 'heeee';
+        });
+
+        Route::get('/logout','AuthController@logout');
+
+    });
 });

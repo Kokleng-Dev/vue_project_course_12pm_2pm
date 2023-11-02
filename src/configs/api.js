@@ -4,6 +4,7 @@ export function getPath(key){
 
 
 const paths = {
-    product : '/products',
+    login : '/login',
+    logout : '/logout'
 }
 

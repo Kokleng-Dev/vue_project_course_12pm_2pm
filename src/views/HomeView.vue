@@ -30,7 +30,7 @@ import axios from 'axios';
   },
   methods: {
     async fetchData(){
-      this.data = await this.$http.get('product');
+      // this.data = await this.$http.get('product');
       // this.data = await axios.get('.....')
     }
   }
@@ -41,15 +41,27 @@ import axios from 'axios';
 import { getCurrentInstance, onMounted } from 'vue';
 
 const app = getCurrentInstance();
+const global =  app.appContext.config.globalProperties;
 const http = app.appContext.config.globalProperties.$http;
 
 async function getData(){
-  const data = await http.get('product');
+  const data = await http.post('login');
 
   console.log(data);
 }
 
+const e = global.$base64Encode([
+  'hello',
+  {id: 1, name : 'kokleng'}
+]);
+const d = global.$base64Decode(e);
+
+
+// console.log(global.$base64Encode(123))
+// console.log(e);
+// console.log(d);
+
 onMounted(()=>{
-  getData()
+  // getData()
 })
 </script>

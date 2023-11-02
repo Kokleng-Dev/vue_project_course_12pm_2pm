@@ -14,9 +14,7 @@ class ApiKey
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
-    {
-        dd($request);
-        
+    {   
         if(base64Decode($request->header('api_key')) != '123'){
             return response()->json(['status' => 403, 'sms' => 'No key access !!!']);
         }

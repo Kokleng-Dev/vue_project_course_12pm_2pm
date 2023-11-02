@@ -43,9 +43,13 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const defineAuth = auth();
+  defineAuth.init();
+
   if(to.name == 'login'){
     if(defineAuth.isAuth != true){
       next();
+    } else {
+      next({name : 'home'})
     }
   } else {
     if(to.name == 'notFound'){
