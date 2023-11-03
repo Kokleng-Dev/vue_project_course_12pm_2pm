@@ -1,9 +1,10 @@
 <template>
   <nav class="mt-2">
-      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+    <!-- data-widget="treeview" role="menu" data-accordion="false" -->
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" >
         <template v-for="sidebar in sidebars" :key="sidebar">
             <template v-if="sidebar.isChild == true">
-                <li class="nav-item menu-open">
+                <li class="nav-item menu-open" @click="handleLi($event)">
                     <a href="#" :class="`nav-link ${ sidebar.components.split('|').includes($route.name) ? 'active' : '' }`">
                         <i :class="sidebar.icon" class="nav-icon"></i>
                         <p>
@@ -11,6 +12,7 @@
                         </p>
                         <i class="right fas fa-angle-left"></i>
                     </a>
+                    <!-- nav-treeview -->
                     <ul class="nav nav-treeview">
                         <li class="nav-item" v-for="child in sidebar.childs" :key="child">
                             <router-link :to="child.route" :class="`nav-link ${child.route.name == $route.name ? 'active' : ''}`">
@@ -37,6 +39,9 @@
 <script setup>
 import { ref } from "vue";
 
+function handleLi(e){
+    $($(e.target).parent().children().get(1)).slideToggle(150)
+}
     const sidebars = ref([
         {
             name : 'Dashboard',

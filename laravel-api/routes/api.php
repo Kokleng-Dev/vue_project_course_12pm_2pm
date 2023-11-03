@@ -13,12 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::group(['namespace' => 'App\Http\Controllers\Api\\'], function(){
     Route::post('/login', 'AuthController@login');
+    Route::post('/check/otp', 'AuthController@checkOTP');
 
     Route::middleware(['auth:api'])->group(function () {
         Route::get('/test', function(){

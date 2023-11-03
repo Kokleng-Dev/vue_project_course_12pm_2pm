@@ -25,12 +25,20 @@ class AuthController extends Controller
         $user = User::where(['email' => $r->email])->first();
         if($user){
             if(Hash::check($r->password, $user->password)){
-                $token = $user->createToken('MyApi')->accessToken;
+                if($user->is_two_factor == 1){
+                    $num_str = sprintf("%06d", mt_rand(1, 999999));
+                    $user = User::find($user->id);
+                    $user->otp = $num_str;
+                    $user->save();
 
-                return response()->json(['status' => 'success', 'sms' => __('Login Successfully'), 'data' => [
-                    'user' => $user,
-                    'token' => $token
-                ]]);
+                    return response()->json(['status' => 'is_two_factor', 'sms' => __('OTP Sent'), 'user_id' => base64Encode($user->id)]);
+                } else {
+                    $token = $user->createToken('MyApi')->accessToken;
+                    return response()->json(['status' => 'success', 'sms' => __('Login Successfully'), 'data' => [
+                        'user' => $user,
+                        'token' => $token
+                    ]]);
+                }
             }
             return response()->json(['status' => 'error', 'sms' => 'Password not match !!!']);
         }
@@ -38,6 +46,21 @@ class AuthController extends Controller
     }
     public function logout(Request $r){
         $r->user()->token()->revoke();
-        return response()->json(['status' => 'success', 'sms' => __('Logout Successfully')]);
+        return response()->json(['status' => 'success', 'sms' => __('Logout Successfully !!!')]);
+    }
+    public function checkOTP(Request $r){
+        $user = User::find($r->user_id);
+        if($user){
+            if($user->otp == $r->otp){
+                $token = $user->createToken('MyApi')->accessToken;
+                return response()->json(['status' => 'success', 'sms' => __('Login Successfully'), 'data' => [
+                    'user' => $user,
+                    'token' => $token
+                ]]);
+            } else {
+                return response()->json(['status' => 'error', 'sms' => 'Wrong OTP !!!']);
+            }
+        }
+        return response()->json(['status' => 'error', 'sms' => 'Somethings Wrong !!!']);
     }
 }

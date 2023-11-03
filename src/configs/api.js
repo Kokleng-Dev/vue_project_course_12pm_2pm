@@ -5,6 +5,7 @@ export function getPath(key){
 
 const paths = {
     login : '/login',
-    logout : '/logout'
+    logout : '/logout',
+    check_otp : '/check/otp'
 }
 

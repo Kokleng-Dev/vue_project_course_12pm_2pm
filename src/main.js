@@ -1,9 +1,5 @@
 // import './assets/main.css'
-import 'admin-lte/plugins/fontawesome-free/css/all.min.css'
-import 'admin-lte/dist/css/adminlte.min.css'
-import 'admin-lte/plugins/jquery/jquery.min.js'
-import 'admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js'
-import 'admin-lte/dist/js/adminlte.min.js'
+
 import jquery from 'jquery';
 window.$ = window.jQuery = jquery;
 
@@ -21,6 +17,12 @@ import { base64Encode , base64Decode } from '@/configs/encryption.js'
 import ToastPlugin from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-bootstrap.css';
 import { alerts } from './configs/alert.js'
+
+import 'admin-lte/plugins/fontawesome-free/css/all.min.css'
+import 'admin-lte/dist/css/adminlte.min.css'
+import 'admin-lte/plugins/jquery/jquery.min.js'
+import 'admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js'
+import 'admin-lte/dist/js/adminlte.min.js'
 
 const app = createApp(App)
 const pinia = createPinia()

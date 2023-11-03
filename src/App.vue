@@ -2,6 +2,9 @@
   <router-view></router-view>
 </template>
 
+<script>
+
+</script>
 <!-- <script setup>
 import { onMounted } from 'vue';
 import { auth } from './stores/auth';

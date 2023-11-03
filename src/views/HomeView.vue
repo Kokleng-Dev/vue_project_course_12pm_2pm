@@ -14,12 +14,12 @@
       <pre>
         {{ data }}
       </pre>
+
     </Body>
   </Master>
 </template>
 
 <script>
-import { useCounterStore } from '@/stores/counter.js'
 import axios from 'axios';
  export default {
   data(){
@@ -38,6 +38,8 @@ import axios from 'axios';
 </script>
 
 <script setup>
+import { useCounterStore } from '@/stores/counter.js'
+
 import { getCurrentInstance, onMounted } from 'vue';
 
 const app = getCurrentInstance();

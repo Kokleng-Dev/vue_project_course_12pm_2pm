@@ -44,9 +44,11 @@
       </div>
     </div>
   </div>
+  <TwoFactor :userId="userId"/>
 </template>
 
 <script setup>
+import TwoFactor from '@/views/auths/two_factor.vue'
 import { reactive, ref } from 'vue';
 import { auth } from '../../stores/auth.js';
 import { useRouter } from 'vue-router';
@@ -57,6 +59,7 @@ const app = getCurrentInstance();
 const global =  app.appContext.config.globalProperties;
 const http = app.appContext.config.globalProperties.$http;
 
+const userId = ref('');
 const router = useRouter();
 const defineAuth = auth();
 const isAccess = ref(false);
@@ -87,7 +90,15 @@ async function handleLogin(){
         type : 'error',
         sms : data.sms,
       })
-    } else {
+    } else if(data.status == 'is_two_factor'){
+      userId.value = global.$base64Decode(data.user_id);
+      $('#twoFactor').modal();
+      global.$alert({
+        type : 'success',
+        sms : data.sms,
+      })
+    }
+     else {
       if(data.errors.email){
         sms.email = data.errors.email[0];
       } 
