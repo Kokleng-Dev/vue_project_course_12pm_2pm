@@ -28,5 +28,10 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\\'], function(){
 
         Route::get('/logout','AuthController@logout');
 
+        //user
+        Route::get('/user','UserController@index');
+        Route::post('/user/update','UserController@update');
+        Route::post('/user/store','UserController@store');
+        Route::post('/user/delete','UserController@delete');
     });
 });

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->tinyInteger('is_two_factor')->default(0)->comment('0: no, 1: yes');
             $table->string('otp')->nullable();
             $table->text('photo')->nullable();
+            $table->bigInteger('role_id')->default(1);
         });
     }
 
@@ -27,6 +28,7 @@ return new class extends Migration
             $table->dropColumn('is_two_factor');
             $table->dropColumn('photo');
             $table->dropColumn('otp');
+            $table->dropColumn('role_id');
         });
     }
 };
