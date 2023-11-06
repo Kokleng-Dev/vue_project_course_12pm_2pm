@@ -16,7 +16,7 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item" v-for="child in sidebar.childs" :key="child">
                             <router-link :to="child.route" :class="`nav-link ${child.route.name == $route.name ? 'active' : ''}`">
-                                <i :class="child.icon" class="nav-icon"></i>
+                                <i :class="`${child.icon} nav-icon`"></i>
                                 <p>{{ child.name }}</p>
                             </router-link>
                         </li>
@@ -75,3 +75,8 @@ function handleLi(e){
         }
     ]);
 </script>
+<style>
+.rotate0{
+    transform: rotate(0deg) !important;
+}
+</style>
