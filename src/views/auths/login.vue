@@ -80,16 +80,8 @@ async function handleLogin(){
     const { data } = await http.post('login',user);
     if(data.status == 'success'){
       defineAuth.login(data);
-      global.$alert({
-        type : 'success',
-        sms : data.sms,
-      })
       router.push('/');
     }else if(data.status == 'error'){
-      global.$alert({
-        type : 'error',
-        sms : data.sms,
-      })
     } else if(data.status == 'is_two_factor'){
       userId.value = global.$base64Decode(data.user_id);
       $('#twoFactor').modal();
@@ -105,10 +97,6 @@ async function handleLogin(){
       if(data.errors.password){
         sms.password = data.errors.password[0];
       }
-      global.$alert({
-        type : 'warning',
-        sms : data.sms,
-      })
     }
   } catch (error) {
     console.log(error)

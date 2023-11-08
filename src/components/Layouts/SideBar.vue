@@ -15,7 +15,7 @@
                     <!-- nav-treeview -->
                     <ul class="nav nav-treeview">
                         <li class="nav-item" v-for="child in sidebar.childs" :key="child">
-                            <router-link :to="child.route" :class="`nav-link ${child.route.name == $route.name ? 'active' : ''}`">
+                            <router-link :to="child.route" :class="`nav-link ${child.components.split('|').includes($route.name) ? 'active' : '' }`">
                                 <i :class="`${child.icon} nav-icon`"></i>
                                 <p>{{ child.name }}</p>
                             </router-link>
@@ -54,21 +54,30 @@ function handleLi(e){
             route : { name : 'setting' },
             icon : 'fa fa-cogs',
             isChild : true,
-            components : 'user|role|config',
+            components : 'user|role|config|permission|permission_feature|role_permission',
             childs : [
                 {
-                    name : 'User',
-                    route : { name : 'user'},
+                    name : 'Permission',
+                    route : { name : 'permission'},
+                    components : 'permission|permission_feature',
                     icon : 'far fa-circle',
                 },
                 {
                     name : 'Role',
                     route : { name : 'role'},
+                    components : 'role|role_permission',
+                    icon : 'far fa-circle',
+                },
+                {
+                    name : 'User',
+                    route : { name : 'user'},
+                    components : 'user',
                     icon : 'far fa-circle',
                 },
                 {
                     name : 'Config',
                     route : { name : 'config'},
+                    components : 'config',
                     icon : 'far fa-circle',
                 },
             ]
