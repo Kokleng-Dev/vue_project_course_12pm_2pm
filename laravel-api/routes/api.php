@@ -28,10 +28,34 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\\'], function(){
 
         Route::get('/logout','AuthController@logout');
 
+        //permission
+        Route::get('/permission','PermissionController@index');
+        Route::post('/permission/update','PermissionController@update');
+        Route::post('/permission/store','PermissionController@store');
+        Route::post('/permission/delete','PermissionController@delete');
+
+        //permission feature
+        Route::get('/permission/feature','PermissionFeatureController@index');
+        Route::post('/permission/feature/update','PermissionFeatureController@update');
+        Route::post('/permission/feature/store','PermissionFeatureController@store');
+        Route::post('/permission/feature/delete','PermissionFeatureController@delete');
+
+        //role
+        Route::get('/role','RoleController@index');
+        Route::post('/role/update','RoleController@update');
+        Route::post('/role/store','RoleController@store');
+        Route::post('/role/delete','RoleController@delete');
+
+        //role permission
+        Route::get('/role/permission','RolePermissionController@index');
+        Route::post('/role/permission/update', 'RolePermissionController@action');
+
         //user
         Route::get('/user','UserController@index');
         Route::post('/user/update','UserController@update');
         Route::post('/user/store','UserController@store');
         Route::post('/user/delete','UserController@delete');
+
+        
     });
 });
