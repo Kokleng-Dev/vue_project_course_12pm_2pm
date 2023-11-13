@@ -44,6 +44,11 @@ const router = createRouter({
       component: () => import('@/views/auths/login.vue'),
     },
     {
+      path: '/api-key',
+      name: 'api_key',
+      component: () => import('@/views/api_keys/index.vue'),
+    },
+    {
       path: '/config',
       name: 'config',
       component: Config,

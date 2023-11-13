@@ -60,6 +60,7 @@
 <script>
 import CreateUser from './create.vue'
 import EditUser from './edit.vue'
+import { usePermissionStore } from '../../stores/permission'
 
 export default {
   components : {
@@ -77,6 +78,8 @@ export default {
     async init(event = false, user_id = 0){
       try {
         const { data } = await this.$http.get(`user?user_id=${user_id}`);
+        const permission = usePermissionStore();
+        permission.setPermission(data.permission);
         if(user_id){
           $(event.target).attr('disabled',true);
           this.edit = data.data.user;

@@ -22,6 +22,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\\'], function(){
     Route::post('/check/otp', 'AuthController@checkOTP');
 
     Route::middleware(['auth:api'])->group(function () {
+
         Route::get('/test', function(){
             return 'heeee';
         });
@@ -56,6 +57,12 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\\'], function(){
         Route::post('/user/store','UserController@store');
         Route::post('/user/delete','UserController@delete');
 
+
+        //api key
+        Route::get('/api-key','ApiKeyController@index');
+        Route::post('/api-key/update','ApiKeyController@update');
+        Route::post('/api-key/store','ApiKeyController@store');
+        Route::post('/api-key/delete','ApiKeyController@delete');
         
     });
 });

@@ -16,8 +16,11 @@ class RolePermissionController extends Controller
         $role_id = $r->role_id;
         $permissions = DB::table('permissions')
                         ->leftJoin(DB::raw("(Select * from role_permissions where role_id = $role_id) as rolePer"), 'rolePer.permission_id','permissions.id')
-                       ->select('permissions.*','rolePer.permission_feature_id')
-                       ->get();
+                       ->select('permissions.*','rolePer.permission_feature_id');
+        if(DB::table('users')->find($r->header('user_id'))->role_id != 1){
+            $permissions->whereNotIn('permissions.id',[4,6]);
+        }
+        $permissions = $permissions->get();
         foreach ($permissions as $index => $permission) {
             if($permission->permission_feature_id){
                 $feature_ids = array_values((array)json_decode($permission->permission_feature_id));
@@ -41,11 +44,12 @@ class RolePermissionController extends Controller
                         ->where('permission_id', $permission->id)
                         ->select('permission_features.*', DB::raw('0 as permission'))
                         ->get();
+
                 $permissions[$index]->features = $features;
             }
         }
        
-        return response()->json(['permissions' => $permissions]);
+        return  $this->shareData(['permissions' => $permissions]);
     }
     public function action(Request $r){
         DB::beginTransaction();
@@ -82,15 +86,15 @@ class RolePermissionController extends Controller
                 $role_permission->permission_feature_id = $feature_ids;
                 $role_permission->save();
             }
-
+            
             DB::commit();
 
-            return response()->json(['status' => 'success', 'sms' => __('Update Succesffully')]);
+            return $this->shareData(['status' => 'success', 'sms' => __('Update Succesffully')]);
             
         } catch (\Throwable $th) {
             DB::rollback();
             //throw $th;
-            return response()->json(['status' => 'error', 'sms' => $th->getMessage()]);
+            return  $this->shareData(['status' => 'error', 'sms' => $th->getMessage()]);
         }
     }
 }

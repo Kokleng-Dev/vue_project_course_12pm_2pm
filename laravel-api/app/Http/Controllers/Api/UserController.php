@@ -19,7 +19,7 @@ class UserController extends Controller
         $data['roles'] = DB::table('roles')->get();
         $data['user'] = $user;
 
-        return response()->json(['data' => $data]);
+        return $this->shareData(['data' => $data]);
     }
     public function store(Request $r){
         try {

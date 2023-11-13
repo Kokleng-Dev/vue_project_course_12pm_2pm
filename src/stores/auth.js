@@ -3,6 +3,7 @@ import { reactive, ref , computed} from 'vue'
 import { useRouter } from 'vue-router';
 import { base64Encode, base64Decode } from '../configs/encryption';
 import axios from 'axios';
+import { usePermissionStore } from './permission';
 
 // composition api
 export const auth = defineStore('auth', () => {
@@ -19,16 +20,22 @@ export const auth = defineStore('auth', () => {
 
             localStorage.setItem('token', base64Encode(token.value));
             localStorage.setItem('auth', base64Encode(auth.value));
+            localStorage.setItem('permissions', base64Encode(data.permission));
             axios.defaults.headers.common['Authorization'] = token.value;
+            axios.defaults.headers.common['user_id'] = data.data.user.id;
+            
         }
     }
 
     function init(){
         if(localStorage.getItem('token') && localStorage.getItem('auth')){
+            const permission = usePermissionStore();
             token.value = base64Decode(localStorage.getItem('token'));
             auth.value = base64Decode(localStorage.getItem('auth'));
+            permission.newPermission(base64Decode(localStorage.getItem('permissions')));
             isAuth.value = true
             axios.defaults.headers.common['Authorization'] = token.value;
+            axios.defaults.headers.common['user_id'] = auth.value.id;
             return 
         }
         isAuth.value = false

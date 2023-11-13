@@ -53,6 +53,7 @@ import { reactive, ref } from 'vue';
 import { auth } from '../../stores/auth.js';
 import { useRouter } from 'vue-router';
 import { getCurrentInstance, onMounted } from 'vue';
+import { usePermissionStore } from '../../stores/permission';
 
 
 const app = getCurrentInstance();
@@ -63,6 +64,7 @@ const userId = ref('');
 const router = useRouter();
 const defineAuth = auth();
 const isAccess = ref(false);
+const permission = usePermissionStore();
 const user = reactive({
   email : '',
   password : ''
@@ -79,6 +81,8 @@ async function handleLogin(){
   try {
     const { data } = await http.post('login',user);
     if(data.status == 'success'){
+      permission.newPermission(data.permission);
+      console.log(permission.role_permission);
       defineAuth.login(data);
       router.push('/');
     }else if(data.status == 'error'){

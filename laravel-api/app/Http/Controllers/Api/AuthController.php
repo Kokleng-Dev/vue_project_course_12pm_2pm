@@ -34,10 +34,10 @@ class AuthController extends Controller
                     return response()->json(['status' => 'is_two_factor', 'sms' => __('OTP Sent'), 'user_id' => base64Encode($user->id)]);
                 } else {
                     $token = $user->createToken('MyApi')->accessToken;
-                    return response()->json(['status' => 'success', 'sms' => __('Login Successfully'), 'data' => [
+                    return $this->shareData(['status' => 'success', 'sms' => __('Login Successfully'), 'data' => [
                         'user' => $user,
                         'token' => $token
-                    ]]);
+                    ]], $user->id);
                 }
             }
             return response()->json(['status' => 'error', 'sms' => 'Password not match !!!']);

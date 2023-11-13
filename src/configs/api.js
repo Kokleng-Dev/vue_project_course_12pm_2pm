@@ -8,6 +8,11 @@ export function getPath(key){
 
 
 const paths = {
+    api_key : '/api-key',
+    update_api_key: '/api-key/update',
+    create_api_key: '/api-key/store',
+    delete_api_key: '/api-key/delete',
+
     login : '/login',
     logout : '/logout',
     check_otp : '/check/otp',
