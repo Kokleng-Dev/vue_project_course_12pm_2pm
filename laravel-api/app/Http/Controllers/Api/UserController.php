@@ -11,8 +11,11 @@ use Hash;
 class UserController extends Controller
 {
     public function index(Request $r){
+        $user_id = request()->header('user_id');
         if($r->user_id == 0){
-            $user = User::join('roles','roles.id','users.role_id')->select('users.*','roles.name as role_name')->paginate(2);
+            $user = User::join('roles','roles.id','users.role_id')
+                    ->where('created_by',$user_id)
+                    ->select('users.*','roles.name as role_name')->paginate(2);
         } else {
             $user = User::find($r->user_id);
         }
@@ -28,6 +31,7 @@ class UserController extends Controller
             $user->password = Hash::make($r->password);
             $user->role_id = $r->role_id;
             $user->email = $r->email;
+            $user->created_by = request()->header('user_id');
             $user->save();
 
             return response()->json(['status' => 'success', 'sms' => 'បញ្ចូលបានសម្រេច!!!']);

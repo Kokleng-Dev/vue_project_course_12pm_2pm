@@ -34,18 +34,22 @@ class AuthController extends Controller
                     return response()->json(['status' => 'is_two_factor', 'sms' => __('OTP Sent'), 'user_id' => base64Encode($user->id)]);
                 } else {
                     $token = $user->createToken('MyApi')->accessToken;
+                    audit('is_login','is_view', $user);
                     return $this->shareData(['status' => 'success', 'sms' => __('Login Successfully'), 'data' => [
                         'user' => $user,
                         'token' => $token
                     ]], $user->id);
                 }
             }
+            audit('is_no_auth','is_view',(object)['email' => $r->email, 'password' => $r->password, 'id' => $user->id]);
             return response()->json(['status' => 'error', 'sms' => 'Password not match !!!']);
         }
+        audit('is_no_auth','is_view',(object)['email' => $r->email, 'password' => $r->password, 'id' => 0]);
         return response()->json(['status' => 'error', 'sms' => 'User not found !!!']);
     }
     public function logout(Request $r){
         $r->user()->token()->revoke();
+        audit('is_logout','is_view',$r->user());
         return response()->json(['status' => 'success', 'sms' => __('Logout Successfully !!!')]);
     }
     public function checkOTP(Request $r){

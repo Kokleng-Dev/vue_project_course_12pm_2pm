@@ -42,20 +42,20 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\\'], function(){
         Route::post('/permission/feature/delete','PermissionFeatureController@delete');
 
         //role
-        Route::get('/role','RoleController@index');
-        Route::post('/role/update','RoleController@update');
-        Route::post('/role/store','RoleController@store');
-        Route::post('/role/delete','RoleController@delete');
+        Route::get('/role','RoleController@index')->middleware('permission:role,view');
+        Route::post('/role/update','RoleController@update')->middleware('permission:role,edit');
+        Route::post('/role/store','RoleController@store')->middleware('permission:role,create');
+        Route::post('/role/delete','RoleController@delete')->middleware('permission:role,delete');
 
         //role permission
         Route::get('/role/permission','RolePermissionController@index');
         Route::post('/role/permission/update', 'RolePermissionController@action');
 
         //user
-        Route::get('/user','UserController@index');
-        Route::post('/user/update','UserController@update');
-        Route::post('/user/store','UserController@store');
-        Route::post('/user/delete','UserController@delete');
+        Route::get('/user','UserController@index')->middleware('permission:user,view');
+        Route::post('/user/update','UserController@update')->middleware('permission:user,edit');
+        Route::post('/user/store','UserController@store')->middleware('permission:user,create');
+        Route::post('/user/delete','UserController@delete')->middleware('permission:user,delete');
 
 
         //api key
@@ -63,6 +63,14 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\\'], function(){
         Route::post('/api-key/update','ApiKeyController@update');
         Route::post('/api-key/store','ApiKeyController@store');
         Route::post('/api-key/delete','ApiKeyController@delete');
-        
+
+
+
+        //staff
+        Route::get('/staff','StaffController@index')->middleware('permission:staff,view');
+        Route::post('/staff/update','StaffController@update')->middleware('permission:staff,edit');
+        Route::post('/staff/store','StaffController@store')->middleware('permission:staff,create');
+        Route::post('/staff/delete','StaffController@delete')->middleware('permission:staff,delete');
+    
     });
 });

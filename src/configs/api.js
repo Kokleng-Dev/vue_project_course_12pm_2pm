@@ -45,5 +45,11 @@ const paths = {
     update_user : '/user/update',
     create_user : '/user/store',
     delete_user : '/user/delete',
+
+    //staff
+    staff : '/staff',
+    update_staff : '/staff/update',
+    create_staff : '/staff/store',
+    delete_staff : '/staff/delete',
 }
 

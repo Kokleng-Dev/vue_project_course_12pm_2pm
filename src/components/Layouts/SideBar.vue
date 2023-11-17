@@ -69,6 +69,13 @@ function handleLi(e){
             icon : 'fa fa-home',
             isChild : false,
             permissions : 'home'
+        }, 
+        {
+            name : 'Staff',
+            route : { name : 'staff' },
+            icon : 'fa fa-user',
+            isChild : false,
+            permissions : 'staff'
         },
         {
             name : 'Settings',
