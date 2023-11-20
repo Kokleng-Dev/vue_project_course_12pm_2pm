@@ -15,7 +15,7 @@ export const AxiosApp = {
     },
     post : async (key,data) => {
         const res = await axios.post(getPath(key), data);
-        alerts({type : res.data.status, sms : res.data.sms});
+        alerts({type : res.data.status == 'no_permission' ? 'warning' : res.data.status, sms : res.data.sms});
         return res;
     }
 }

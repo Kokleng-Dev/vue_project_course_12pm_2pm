@@ -10,7 +10,7 @@
             </div>
             <form @submit.prevent="handleSubmit($event)">
                 <div class="modal-body">
-                    <button class="btn btn-sm btn-primary" type="button" @click="addStaff()">Add</button>
+                    <button class="btn btn-sm btn-primary mb-2" type="button" @click="addStaff()">Add</button>
                     <table class="table table-sm table-bordered table-hover">
                         <thead>
                             <tr>
@@ -62,12 +62,7 @@
         },
         methods : {
             clearform(){
-                this.form = {
-                    name : '',
-                    password : '',
-                    email : '',
-                    role_id : ''
-                }
+                this.staffs = [];
             },
             addStaff(){
                 this.staffs.push({
@@ -81,13 +76,12 @@
                 this.staffs = this.staffs.filter((_,index) => index != _index);
             },
             async handleSubmit($event){
-                console.log(this.staffs);
-                // this.isSubmit = true;
-                // await this.$http.post('create_user', this.form);
-                // this.isSubmit = false;
-                // this.clearform();
-                // $('#createModal').modal('hide');
-                // this.$emit('reloadPage');
+                this.isSubmit = true;
+                await this.$http.post('create_staff', this.staffs);
+                this.isSubmit = false;
+                this.clearform();
+                $('#createModal').modal('hide');
+                this.$emit('reloadPage');
             }
         }
     }

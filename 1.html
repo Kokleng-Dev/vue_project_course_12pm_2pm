@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="addItem()">Add</button>
+    <br> <br>
+    <table border="1" cellspacing="0">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="tbd"></tbody>
+    </table>
+
+
+    <script>
+        let data = [];
+        let i = 0;
+        let tbd = document.getElementById('tbd');
+        function addItem(){
+            i++;
+            data.push({
+                id : i,
+                name : '',
+            });
+            mounted();
+        }
+        function mounted(){
+            let tbody = '';
+            data.forEach((item, index) => {
+                tbody += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td><input value="${item.name}" name="user[${index}]['name']" /></td>
+                        <td>
+                            <button onclick="editItem(${item.id})">Edit</button>
+                            <button onclick="deleteItem(${item.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            tbd.innerHTML = tbody;
+        }
+
+        function editItem(id){
+            alert('Edit : ' + id )
+        }
+    </script>
+</body>
+</html>

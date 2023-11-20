@@ -15,19 +15,16 @@
                         <input id="ename" type="text" v-model="form.name" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label for="erole">Role</label>
-                        <select id="erole" class="form-control" v-model="form.role_id" required>
-                            <option value="">Please Select</option>
-                            <option :value="role.id" v-for="role in roles" :key="role.id">{{ role.name  }}</option>
+                        <label for="ephone">Phone</label>
+                        <input id="ephone" type="number" v-model="form.phone" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="egender">Gender</label>
+                        <select id="egender" class="form-control" v-model="form.gender" required>
+                            <option value="male">Male</option>
+                            <option value="female">female</option>
+                            <option value="other">other</option>
                         </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="eemail">Email</label>
-                        <input id="eemail" type="email" v-model="form.email" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="epassword">Password</label>
-                        <input id="epassword" type="text" v-model="form.password" class="form-control">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -47,11 +44,10 @@
             form : {
                 type : [Object, Array],
                 default : {
-                    user_id : '',
-                    email : '',
+                    id : '',
+                    phone : '',
                     name : '',
-                    password : '',
-                    role_id : ''
+                    gender : '',
                 }
             },
             roles : {
@@ -67,7 +63,7 @@
         methods : {
             async handleSubmit($event){
                 this.isSubmit = true;
-                await this.$http.post('update_user', this.form);
+                await this.$http.post('update_staff', this.form);
                 this.isSubmit = false;
 
                 $('#editModal').modal('hide');
