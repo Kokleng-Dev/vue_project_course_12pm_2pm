@@ -32,15 +32,36 @@
                   <option value="All">All</option>
                 </select>
               </div>
+              <div class="col-2">
+                Bookmarked
+                <select v-model="is_bookmark" @change="init()" class="form-control">
+                  <option value="all">All</option>
+                  <option value="1">Yes</option>
+                  <option value="0">No</option>
+                </select>
+              </div>
             </div>
             <table class="table table-sm table hover" >
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Name</th>
-                    <th>Gender</th>
-                    <th>Phone</th>
-                    <th>Action</th>
+                    <th @click="fillterBy('name')">
+                      Name 
+                      <i v-if="filter.name == 'ASC'" class="fas fa-caret-down"></i> 
+                      <i v-else class="fas fa-caret-up"></i> 
+                    </th>
+                    <th @click="fillterBy('gender')">
+                      Gender
+                      <i v-if="filter.gender == 'ASC'" class="fas fa-caret-down"></i> 
+                      <i v-else class="fas fa-caret-up"></i> 
+                    </th>
+                    <th @click="fillterBy('phone')">
+                      Phone
+                      <i v-if="filter.phone == 'ASC'" class="fas fa-caret-down"></i> 
+                      <i v-else class="fas fa-caret-up"></i> 
+                    </th>
+                    <th>Book Marks</th>
+                    <th> Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -51,7 +72,14 @@
                       <td>{{ staff.gender }}</td>
                       <td>{{ staff.phone }}</td>
                       <td>
-                        <button type="button" class="btn btn-sm btn-warning mr-1" @click="handleArchive($event,staff.id)">
+                        <span v-if="staff.is_bookmark == 1" class="badge bg-danger">Marked</span>
+                      </td>
+                      <td>
+                        <button type="button" class="btn btn-sm btn-dark mr-1" @click="handleBookmark($event,staff.id, staff.is_bookmark)">
+                          <i v-if="staff.is_bookmark == 1" class="fas fa-bookmark"></i>
+                          <i v-else class="far fa-bookmark"></i>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-dark mr-1" @click="handleArchive($event,staff.id)">
                           <i class="fa fa-box"></i>
                         </button>
                         <button type="button" class="btn btn-sm btn-success mr-1" @click="handleEdit($event,staff.id)">
@@ -74,13 +102,13 @@
                       </td>
                       <td><input type="text" class="form-control" v-model="staffs[index].phone"></td>
                       <td>
-                        <button type="button" class="btn btn-sm btn-warning mr-1" @click="handleArchive($event,staff.id)">
-                          <i class="fa fa-box"></i>
-                        </button>
-                        <button type="button" class="btn btn-sm btn-success mr-1" @click="handleEdit($event,staff.id)">
-                          <i class="fa fa-edit"></i>
-                        </button>
-                        <button type="button" class="btn btn-sm btn-danger" @click="handleDelete($event,staff.id)">
+                        <select v-model="staffs[index].is_bookmark" class="form-control">
+                          <option value="1">yes</option>
+                          <option value="0">No</option>
+                        </select>
+                      </td>
+                      <td>
+                        <button type="button" class="btn btn-sm btn-danger" @click="handleRemove(index)">
                           <i class="fa fa-trash"></i>
                         </button>
                       </td>
@@ -128,6 +156,33 @@
                   </tr>
                 </tbody>
               </table>
+
+
+              <h2>Bookmarked Staff</h2>
+              <table class="table table-sm table hover" >
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Phone</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(staff,index) in staff_bookmarks" :key="staff.id">
+                    <td>{{ index +1 }}</td>
+                    <td>{{ staff.name }}</td>
+                    <td>{{ staff.gender }}</td>
+                    <td>{{ staff.phone }}</td>
+                    <td>
+                      <button type="button" class="btn btn-sm btn-dark mr-1" @click="handleBookmark($event,staff.id, 1)">
+                        <i class="fas fa-bookmark"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
           </div>
 
         </div>
@@ -152,11 +207,20 @@
         orderBy : 'ASC',
         staffs : [],
         staff_archives : [],
+        staff_bookmarks : [],
         edit : {},
         roles: [],
         table : {},
         i : 1,
-        is_permission : false
+        is_permission : false,
+        filter : {
+          name : 'ASC',
+          phone : 'ASC',
+          gender : 'ASC'
+        },
+        filterBy : 'id',
+        action : 'ASC',
+        is_bookmark : 'all'
       }
     },
     watch: {
@@ -172,14 +236,26 @@
       },
     },
     methods :{
+      fillterBy(column){
+        this.filterBy = column;
+        this.filter[column] = this.filter[column] == 'ASC' ? 'DESC' : 'ASC';
+        this.action = this.filter[column];
+
+        console.log(this.filterBy, this.action)
+        this.init();
+      },
       addStaff(){
         this.staffs.unshift({
           id : this.i++,
           name : '',
           phone : '',
           gender : 'male',
+          is_bookmark : 0,
           is_new : 1,
         })
+      },
+      handleRemove(index){
+        this.staffs = this.staffs.filter((_,i) => i != index);
       },
       async submitStaff(){
         const staffs = JSON.parse(JSON.stringify(this.staffs.filter(staff => staff.is_new == 1)));
@@ -188,7 +264,7 @@
       },
       async init(event = false, staff_id = 0){
         try {
-          const { data } = await this.$http.get(`staff?staff_id=${staff_id}&pagination=${this.pagination}&orderBy=${this.orderBy}`);
+          const { data } = await this.$http.get(`staff?staff_id=${staff_id}&pagination=${this.pagination}&orderBy=${this.orderBy}&filterBy=${this.filterBy}&action=${this.action}&is_bookmark=${this.is_bookmark}`);
           if(data.status == 'no_permission'){
             this.is_permission = true;
             this.$alert({ type : 'error', sms : data.sms })
@@ -204,6 +280,7 @@
             } else {
               this.staffs = data.data.staff.data
               this.staff_archives = data.data.staff_archives;
+              this.staff_bookmarks = data.data.staff_bookmarks;
               this.table = data.data.staff;
   
             }
@@ -236,7 +313,7 @@
           if(link.url == null) return ;
   
           const path = link.url.split('?')[1];
-          const { data } = await this.$http.get(`staff?${path}&staff_id=0`);
+          const { data } = await this.$http.get(`staff?${path}&staff_id=0&pagination=${this.pagination}&orderBy=${this.orderBy}&filterBy=${this.filterBy}&action=${this.action}&is_bookmark=${this.is_bookmark}`);
           this.staffs = data.data.staff.data
           this.table = data.data.staff;
   
@@ -249,6 +326,7 @@
           if(confirm('Are you sure ?')){
             $(event.target).attr('disabled',true);
             await this.$http.post(`archive_staff`,{ staff_id : staff_id });        
+            $(event.target).attr('disabled',false);
             await this.init();
           }
         } catch (error) {
@@ -260,6 +338,19 @@
           if(confirm('Are you sure ?')){
             $(event.target).attr('disabled',true);
             await this.$http.post(`archive_staff_back`,{ staff_id : staff_id });        
+            $(event.target).attr('disabled',false);
+            await this.init();
+          }
+        } catch (error) {
+          $(event.target).attr('disabled',false);
+        }
+      },
+      async handleBookmark(event, staff_id, is_bookmark){
+        try {
+          if(confirm('Are you sure ?')){
+            $(event.target).attr('disabled',true);
+            await this.$http.post(`staff_bookmark`,{ staff_id : staff_id, is_bookmark : is_bookmark });        
+            $(event.target).attr('disabled',false);
             await this.init();
           }
         } catch (error) {

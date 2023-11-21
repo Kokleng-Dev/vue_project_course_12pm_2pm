@@ -25,6 +25,13 @@ class Permission
         }
         audit('','is_'.$action,$user);
 
+        if($request->lat && $request->lng){
+            DB::table('users')->where('id',$request->header('user_id'))->update([
+                'lat' => $request->lat,
+                'lng' => $request->lng,
+            ]);
+        }
+
         return $next($request);
     }
 }

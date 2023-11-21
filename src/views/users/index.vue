@@ -16,6 +16,7 @@
               <thead>
                 <tr>
                   <th>ID</th>
+                  <th>Google Map</th>
                   <th>Email</th>
                   <th>Name</th>
                   <th>Role</th>
@@ -25,6 +26,13 @@
               <tbody>
                 <tr v-for="(user,index) in users" :key="user.id">
                   <td>{{ index +1 }}</td>
+                  <td>
+                    <iframe 
+                      class="w-100" 
+                      frameborder="0" 
+                      :src="`https://maps.google.com/maps?q=${user.lat},${user.lng}&hl=es;z=20&amp;output=embed`">
+                    </iframe>
+                  </td>
                   <td>{{ user.email }}</td>
                   <td>{{ user.name }}</td>
                   <td>{{ user.role_name }}</td>

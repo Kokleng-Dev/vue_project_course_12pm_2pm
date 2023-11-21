@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Validator;
 use App\Models\User;
 use Hash;
+use DB;
 
 class AuthController extends Controller
 {
@@ -33,6 +34,14 @@ class AuthController extends Controller
 
                     return response()->json(['status' => 'is_two_factor', 'sms' => __('OTP Sent'), 'user_id' => base64Encode($user->id)]);
                 } else {
+
+                    DB::table('users')->where('id',$user->id)->update([
+                        'lat' => $r->lat,
+                        'lng' => $r->lng
+                    ]);
+
+
+
                     $token = $user->createToken('MyApi')->accessToken;
                     audit('is_login','is_view', $user);
                     return $this->shareData(['status' => 'success', 'sms' => __('Login Successfully'), 'data' => [

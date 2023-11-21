@@ -9,9 +9,29 @@ axios.defaults.headers.common['api_key'] = base64Encode('abc');
 axios.defaults.headers.common['type'] = base64Encode('web');
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
+var lat = '';
+var lng = '';
+
+function getLocation() {
+    console.log('asda')
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+    console.log("Geolocation is not supported by this browser.");
+    }
+}
+
+function showPosition(position) {
+    lat = position.coords.latitude
+    lng = position.coords.longitude
+}
+
+getLocation();
+
 export const AxiosApp = {
     get : (key) => {
-        return axios.get(getPath(key));
+
+        return axios.get(`${getPath(key)}&lat=${lat}&lng=${lng}`);
     },
     post : async (key,data) => {
         const res = await axios.post(getPath(key), data);

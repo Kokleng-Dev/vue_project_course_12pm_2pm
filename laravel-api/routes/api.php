@@ -73,8 +73,9 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\\'], function(){
         Route::post('/staff/delete','StaffController@delete')->middleware('permission:staff,delete');
         Route::post('/staff/archive','StaffController@archive')->middleware('permission:staff,archive');
         Route::post('/staff/archive/back','StaffController@archiveBack')->middleware('permission:staff,archive');
+        Route::post('/staff/bookmark','StaffController@bookmark')->middleware('permission:staff,bookmark');
 
         
-    
+        
     });
 });

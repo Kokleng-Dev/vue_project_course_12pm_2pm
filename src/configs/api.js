@@ -52,6 +52,7 @@ const paths = {
     create_staff : '/staff/store',
     delete_staff : '/staff/delete',
     archive_staff : '/staff/archive',
-    archive_staff_back : '/staff/archive/back'
+    archive_staff_back : '/staff/archive/back',
+    staff_bookmark : '/staff/bookmark'
 }
 

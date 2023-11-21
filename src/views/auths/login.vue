@@ -2,6 +2,12 @@
   <div class="hold-transition login-page bg-dark">
     <div class="login-box">
       <div class="card">
+        <div class="card-header pb-2">
+          <iframe 
+            class="w-100" 
+            frameborder="0" 
+            :src="`https://maps.google.com/maps?q=${user.lat},${user.lng}&hl=es;z=20&amp;output=embed`"></iframe>
+        </div>
         <div class="card-body login-card-body">
           <h2 class="login-box-msg">Login</h2>
 
@@ -67,7 +73,9 @@ const isAccess = ref(false);
 const permission = usePermissionStore();
 const user = reactive({
   email : '',
-  password : ''
+  password : '',
+  lat : '',
+  lng : ''
 })
 const sms = reactive({
   email : '',
@@ -107,6 +115,29 @@ async function handleLogin(){
   }
   isAccess.value = false;
 }
+
+
+
+
+ 
+
+function getLocation() {
+  console.log('asda')
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    console.log("Geolocation is not supported by this browser.");
+  }
+}
+
+function showPosition(position) {
+  user.lat = position.coords.latitude
+  user.lng = position.coords.longitude
+}
+
+onMounted(()=>{
+  getLocation();
+})
 
 </script>
 

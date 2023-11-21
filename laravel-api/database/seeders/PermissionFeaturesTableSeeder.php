@@ -269,6 +269,26 @@ class PermissionFeaturesTableSeeder extends Seeder
                 'created_at' => '2023-11-16 07:14:18',
                 'updated_at' => '2023-11-16 07:14:18',
             ),
+            25 => 
+            array (
+                'id' => 26,
+                'permission_id' => 7,
+                'name' => 'Archive',
+                'key' => 'archive',
+                'note' => NULL,
+                'created_at' => '2023-11-20 06:18:06',
+                'updated_at' => '2023-11-20 06:18:06',
+            ),
+            26 => 
+            array (
+                'id' => 27,
+                'permission_id' => 7,
+                'name' => 'Book Marked',
+                'key' => 'bookmark',
+                'note' => NULL,
+                'created_at' => '2023-11-21 06:13:45',
+                'updated_at' => '2023-11-21 06:13:45',
+            ),
         ));
         
         
