@@ -9,6 +9,7 @@
             No Permission
           </div>
           <div class="card-body" v-else>
+            <img :src="`${file}docs/BQbG0H98wbbMwsW4EbkE6AbQK8mVC0lma5IAZt3Q.jpg`" alt="" style="width: 200;">
             <button type="button" class="btn btn-primary mb-3 mr-2" data-toggle="modal" data-target="#createModal">
               <i class="fa fa-plus"></i> Create
             </button>
@@ -61,6 +62,7 @@
                       <i v-else class="fas fa-caret-up"></i> 
                     </th>
                     <th>Book Marks</th>
+                    <th>Photo</th>
                     <th> Action</th>
                   </tr>
                 </thead>
@@ -73,6 +75,9 @@
                       <td>{{ staff.phone }}</td>
                       <td>
                         <span v-if="staff.is_bookmark == 1" class="badge bg-danger">Marked</span>
+                      </td>
+                      <td>
+                        <img :src="`${file}${staff.photo}`" alt="" width="100">
                       </td>
                       <td>
                         <button type="button" class="btn btn-sm btn-dark mr-1" @click="handleBookmark($event,staff.id, staff.is_bookmark)">
@@ -196,6 +201,8 @@
   import CreateUser from './create.vue'
   import EditUser from './edit.vue'
   import { usePermissionStore } from '../../stores/permission'
+  import { domain } from '../../configs/file'
+import axios from 'axios'
   
   export default {
     components : {
@@ -203,6 +210,7 @@
     },
     data(){
       return {
+        file : domain,
         pagination : 3,
         orderBy : 'ASC',
         staffs : [],
@@ -236,13 +244,26 @@
       },
     },
     methods :{
-      fillterBy(column){
+      async fillterBy(column){
         this.filterBy = column;
         this.filter[column] = this.filter[column] == 'ASC' ? 'DESC' : 'ASC';
         this.action = this.filter[column];
 
         console.log(this.filterBy, this.action)
         this.init();
+
+        const res = await axios.get('http://localhost:8000/api/user');
+
+        console.log(res.data);
+        // {
+        //   headers : {
+        //     'Accept' : 'application/json',
+        //     'Authorization' : this.$base64Decode(localStorage.getItem('token')),
+        //     'type' : this.$base64Encode('web'),
+        //     "Content-Type" : 'application/json',
+        //     'api_key' : this.$base64Encode('abc')
+        //   }
+        // }
       },
       addStaff(){
         this.staffs.unshift({

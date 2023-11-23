@@ -70,20 +70,40 @@ class StaffController extends Controller
     public function store(Request $r){
         $data = $r->all();
 
-        foreach ($data as $key => $staff) {
-            $staff = (object) $staff;
-           $staff_id  = DB::table('staffs')->insertGetId([
-            'name' => $staff->name,
-            'phone' => $staff->phone,
-            'gender' => $staff->gender
-           ]);
+        if($r->file != ''){
+            $file = $r->file('file')->store('docs','custom');
+            return $file;
+        } else {
+            if($r->staffs){
+                $staffs = $r->staffs;
+                foreach($staffs as $key => $staff){
+                    $staff = (object) $staff;
+                    $staff_id  = DB::table('staffs')->insertGetId([
+                        'name' => $staff->name,
+                        'phone' => $staff->phone,
+                        'photo' => $staff->photo ? $staff->photo->store('staffs','custom') : '',
+                        'gender' => $staff->gender
+                    ]);
+                }
 
-           if($staff->is_bookmark == 1){
-                DB::table('staff_bookmarks')->insert([
-                    'staff_id' => $staff_id,
-                    'user_id' => $r->header('user_id')
-                ]);
-           }
+            } else{
+                foreach ($data as $key => $staff) {
+                    $staff = (object) $staff;
+                    $staff_id  = DB::table('staffs')->insertGetId([
+                        'name' => $staff->name,
+                        'phone' => $staff->phone,
+                        'photo' => $staff->has('photo') ? $staff->file('photo')->store('staffs','custom') : '',
+                        'gender' => $staff->gender
+                    ]);
+    
+                    if($staff->is_bookmark == 1){
+                            DB::table('staff_bookmarks')->insert([
+                                'staff_id' => $staff_id,
+                                'user_id' => $r->header('user_id')
+                            ]);
+                    }
+                }
+            }
         }
 
         return $this->shareData(['status' => 'success', 'sms' => 'insert successfully']);

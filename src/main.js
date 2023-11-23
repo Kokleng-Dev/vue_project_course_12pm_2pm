@@ -23,6 +23,13 @@ import 'admin-lte/dist/css/adminlte.min.css'
 import 'admin-lte/plugins/jquery/jquery.min.js'
 import 'admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js'
 import 'admin-lte/dist/js/adminlte.min.js'
+import axios from 'axios';
+
+// axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
+// axios.defaults.headers.common['Authorization'] = base64Decode(localStorage.getItem('token'));
+// axios.defaults.headers.common['api_key'] = base64Encode('abc');
+// axios.defaults.headers.common['type'] = base64Encode('web');
+// axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 const app = createApp(App)
 const pinia = createPinia()

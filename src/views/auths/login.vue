@@ -6,7 +6,8 @@
           <iframe 
             class="w-100" 
             frameborder="0" 
-            :src="`https://maps.google.com/maps?q=${user.lat},${user.lng}&hl=es;z=20&amp;output=embed`"></iframe>
+            :src="`https://maps.google.com/maps?q=${user.lat},${user.lng}&hl=es;z=20&amp;output=embed`">
+          </iframe>
         </div>
         <div class="card-body login-card-body">
           <h2 class="login-box-msg">Login</h2>

@@ -3,8 +3,9 @@ export function getPath(key){
     if(k.length >= 2){
         return paths.hasOwnProperty(k[0]) ? `${paths[k[0]]}?${k[1]}` : ''; 
     }
-    return paths.hasOwnProperty(key) ? paths[key] : '' ;
+    return paths.hasOwnProperty(key) ? `${paths[key]}?` : '' ;
 }
+
 
 
 const paths = {
