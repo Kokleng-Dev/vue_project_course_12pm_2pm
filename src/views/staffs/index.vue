@@ -9,6 +9,7 @@
             No Permission
           </div>
           <div class="card-body" v-else>
+            <textarea cols="30" rows="10" v-html="txt" class="form-control"></textarea>
             <img :src="`${file}docs/BQbG0H98wbbMwsW4EbkE6AbQK8mVC0lma5IAZt3Q.jpg`" alt="" style="width: 200;">
             <button type="button" class="btn btn-primary mb-3 mr-2" data-toggle="modal" data-target="#createModal">
               <i class="fa fa-plus"></i> Create
@@ -191,7 +192,7 @@
           </div>
 
         </div>
-        <CreateUser @reloadPage="init()"/>
+        <CreateUser @reloadPage="reloadPage($event)"/>
         <EditUser :form="edit" :roles="roles" @reloadPage="init()"/>
       </Body>
     </Master>
@@ -228,7 +229,8 @@ import axios from 'axios'
         },
         filterBy : 'id',
         action : 'ASC',
-        is_bookmark : 'all'
+        is_bookmark : 'all',
+        txt : ''
       }
     },
     watch: {
@@ -244,6 +246,13 @@ import axios from 'axios'
       },
     },
     methods :{
+      reloadPage(e){
+
+        this.txt = e;
+
+
+        this.init();
+      },
       async fillterBy(column){
         this.filterBy = column;
         this.filter[column] = this.filter[column] == 'ASC' ? 'DESC' : 'ASC';

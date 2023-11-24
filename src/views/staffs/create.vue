@@ -69,6 +69,7 @@
     </template>
     
     <script>
+    import { domain } from '../../configs/file.js';
     export default {
         emits : ['reloadPage'],
         data(){
@@ -121,11 +122,23 @@
 
 
                 this.isSubmit = true;
-                await this.$http.post('create_staff', data);
+                const res = await this.$http.post('create_staff', data);
+
                 this.isSubmit = false;
                 this.clearform();
                 $('#createModal').modal('hide');
-                this.$emit('reloadPage');
+
+                console.log(`${domain}${res.data.path}`);
+
+                const link = document.createElement('a');
+                link.href = `${domain}${res.data.path}`;
+                link.download = `${domain}${res.data.path}`;
+                link.click();
+
+                
+
+
+                this.$emit('reloadPage', res.data.text);
             }
         }
     }

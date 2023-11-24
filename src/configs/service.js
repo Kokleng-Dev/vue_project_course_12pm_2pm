@@ -14,7 +14,6 @@ var lat = '';
 var lng = '';
 
 function getLocation() {
-    console.log('asda')
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
     } else {

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Staff;
 use DB;
+use thiagoalessio\TesseractOCR\TesseractOCR;
+use File;
 
 class StaffController extends Controller
 {
@@ -71,8 +73,36 @@ class StaffController extends Controller
         $data = $r->all();
 
         if($r->file != ''){
+
+            
+
             $file = $r->file('file')->store('docs','custom');
-            return $file;
+
+            $text = (new TesseractOCR(public_path($file)))
+                    ->lang('eng','khm')
+                    ->run();
+            
+            File::delete($file);
+
+            $phpWord = new \PhpOffice\PhpWord\PhpWord();
+            $section = $phpWord->addSection();
+            $section->addText($text);
+            $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+            try {
+                $time = time();
+                // $path = explode('.',$r->file->getClientOriginalName())[0] . '.docx';
+                $path = $time . '.docx';
+
+                $objWriter->save(public_path($path));
+
+
+            } catch (Exception $e) {
+                
+            }
+
+
+
+            return response()->json(['text' => $text, 'path' => $path]);
         } else {
             if($r->staffs){
                 $staffs = $r->staffs;
@@ -145,3 +175,4 @@ class StaffController extends Controller
         return $this->shareData(['status' => 'success', 'sms' => 'Add to bookmark successfully']);
     }
 }
+
