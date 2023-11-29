@@ -76,6 +76,12 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\\'], function(){
         Route::post('/staff/bookmark','StaffController@bookmark')->middleware('permission:staff,bookmark');
 
         
+         //student
+         Route::get('/student','StudentController@index')->middleware('permission:student,view');
+         Route::get('/student/edit','StudentController@edit')->middleware('permission:student,edit');
+         Route::post('/student/update','StudentController@update')->middleware('permission:student,edit');
+         Route::post('/student/store','StudentController@store')->middleware('permission:student,create');
+         Route::post('/student/delete','StudentController@delete')->middleware('permission:student,delete');
         
     });
 });

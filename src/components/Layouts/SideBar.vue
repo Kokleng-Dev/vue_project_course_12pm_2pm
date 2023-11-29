@@ -78,6 +78,13 @@ function handleLi(e){
             permissions : 'staff'
         },
         {
+            name : 'Student',
+            route : { name : 'student' },
+            icon : 'fa fa-user',
+            isChild : false,
+            permissions : 'student'
+        },
+        {
             name : 'Settings',
             route : { name : 'setting' },
             icon : 'fa fa-cogs',

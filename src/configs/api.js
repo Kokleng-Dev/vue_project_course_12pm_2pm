@@ -54,6 +54,13 @@ const paths = {
     delete_staff : '/staff/delete',
     archive_staff : '/staff/archive',
     archive_staff_back : '/staff/archive/back',
-    staff_bookmark : '/staff/bookmark'
+    staff_bookmark : '/staff/bookmark',
+
+    //student
+    student : '/student',
+    edit_student : '/student/edit',
+    update_student : '/student/update',
+    create_student : '/student/store',
+    delete_student : '/student/delete',
 }
 
