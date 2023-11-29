@@ -289,6 +289,46 @@ class PermissionFeaturesTableSeeder extends Seeder
                 'created_at' => '2023-11-21 06:13:45',
                 'updated_at' => '2023-11-21 06:13:45',
             ),
+            27 => 
+            array (
+                'id' => 28,
+                'permission_id' => 8,
+                'name' => 'View',
+                'key' => 'view',
+                'note' => NULL,
+                'created_at' => '2023-11-29 13:42:02',
+                'updated_at' => '2023-11-29 13:42:02',
+            ),
+            28 => 
+            array (
+                'id' => 29,
+                'permission_id' => 8,
+                'name' => 'Create',
+                'key' => 'create',
+                'note' => NULL,
+                'created_at' => '2023-11-29 13:42:07',
+                'updated_at' => '2023-11-29 13:42:07',
+            ),
+            29 => 
+            array (
+                'id' => 30,
+                'permission_id' => 8,
+                'name' => 'Edit',
+                'key' => 'edit',
+                'note' => NULL,
+                'created_at' => '2023-11-29 13:42:11',
+                'updated_at' => '2023-11-29 13:42:11',
+            ),
+            30 => 
+            array (
+                'id' => 31,
+                'permission_id' => 8,
+                'name' => 'Delete',
+                'key' => 'delete',
+                'note' => NULL,
+                'created_at' => '2023-11-29 13:42:17',
+                'updated_at' => '2023-11-29 13:42:17',
+            ),
         ));
         
         

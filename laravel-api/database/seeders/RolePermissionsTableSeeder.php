@@ -118,6 +118,24 @@ class RolePermissionsTableSeeder extends Seeder
                 'created_at' => '2023-11-20 06:25:33',
                 'updated_at' => '2023-11-21 06:14:06',
             ),
+            11 => 
+            array (
+                'id' => 16,
+                'role_id' => 1,
+                'permission_id' => 8,
+                'permission_feature_id' => '["28","29","30","31"]',
+                'created_at' => '2023-11-29 13:42:23',
+                'updated_at' => '2023-11-29 13:42:26',
+            ),
+            12 => 
+            array (
+                'id' => 17,
+                'role_id' => 3,
+                'permission_id' => 8,
+                'permission_feature_id' => '["28","29","30","31"]',
+                'created_at' => '2023-11-29 14:26:04',
+                'updated_at' => '2023-11-29 14:26:07',
+            ),
         ));
         
         
