@@ -5,11 +5,16 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
+use Excel;
+use App\Exports\StudentsExport;
+use App\Imports\StudentsImport;
 
 class StudentController extends Controller
 {
     public function index(Request $r){
-        $data['students'] = DB::table('students')->select('*')->paginate(2);
+        $data['students'] = DB::table('students')->select('*')->paginate(100);
+        $data['export'] = url('/export'); 
+        $data['import'] = asset('/excels/students.xlsx');
         return response()->json(['data' => $data]);
     }
     public function store(Request $r){
@@ -35,6 +40,15 @@ class StudentController extends Controller
             'age' => $r->age
         ]);
         return $this->shareData(['status' => 'success', 'sms' => 'update successfully']);
+
+    }
+    public function export(Request $r){
+        return Excel::download(new StudentsExport, 'student.xlsx');
+    }
+    public function import(Request $r){
+        Excel::import(new StudentsImport, $r->file('excel'));
+
+        return $this->shareData(['status' => 'success', 'sms' => 'Import successfully']);
 
     }
 }

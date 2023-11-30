@@ -10,6 +10,20 @@
                 <i class="fa fa-plus"></i> Create
             </router-link>
 
+            <a :href="export" target="_blank" class="btn btn-sm btn-dark mr-1 mb-3">Export Excel</a>
+
+            <a :href="importExcel" target="_blank" class="btn btn-sm btn-dark mr-1 mb-3">Import Excel Example</a>
+
+           <div class="row">
+            <div class="col-4">
+              <div class="mb-3">
+                <label for="">Import Student</label>
+                <input type="file" class="form-control" @change="impExcel = $event.target.files[0]">
+              </div>
+              <button class="btn btn-warning" @click="submtImport()">Submit</button>
+            </div>
+           </div>
+
             <table class="table table-bordered table-sm table hover">
               <thead>
                 <tr>
@@ -59,15 +73,29 @@
     data(){
       return {
         students : [],
-        table : {}
+        table : {},
+        export : '',
+        importExcel : '',
+        impExcel : ''
       }
     },
     methods :{
+      async submtImport(){
+        const info = new FormData();
+        info.append('excel', this.impExcel);
+
+        const { data } = await this.$http.post('import_excel', info);
+        if(data.status == 'success'){
+          this.init();
+        }
+      },
       async init(){
         try {
           const { data } = await this.$http.get('student');
           this.students = data.data.students.data
           this.table = data.data.students;
+          this.export = data.data.export;
+          this.importExcel = data.data.import;
         } catch (error) {
           console.log(error)
         }

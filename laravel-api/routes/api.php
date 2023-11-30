@@ -82,6 +82,9 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\\'], function(){
          Route::post('/student/update','StudentController@update')->middleware('permission:student,edit');
          Route::post('/student/store','StudentController@store')->middleware('permission:student,create');
          Route::post('/student/delete','StudentController@delete')->middleware('permission:student,delete');
+
+         Route::post('/student/import','StudentController@import')->middleware('permission:student,import_excel');
+
         
     });
 });

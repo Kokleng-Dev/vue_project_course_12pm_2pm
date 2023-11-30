@@ -329,6 +329,16 @@ class PermissionFeaturesTableSeeder extends Seeder
                 'created_at' => '2023-11-29 13:42:17',
                 'updated_at' => '2023-11-29 13:42:17',
             ),
+            31 => 
+            array (
+                'id' => 32,
+                'permission_id' => 8,
+                'name' => 'Import Excel',
+                'key' => 'import_excel',
+                'note' => NULL,
+                'created_at' => '2023-11-30 14:06:28',
+                'updated_at' => '2023-11-30 14:06:28',
+            ),
         ));
         
         

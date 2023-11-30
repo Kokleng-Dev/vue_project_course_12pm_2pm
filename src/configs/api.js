@@ -62,5 +62,6 @@ const paths = {
     update_student : '/student/update',
     create_student : '/student/store',
     delete_student : '/student/delete',
+    import_excel : '/student/import'
 }
 

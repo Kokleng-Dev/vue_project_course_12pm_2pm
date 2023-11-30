@@ -18,3 +18,5 @@ Route::get('/', function () {
     $agent = new Agent();
     return view('welcome');
 });
+
+Route::get('/export', 'App\Http\Controllers\Api\StudentController@export');
